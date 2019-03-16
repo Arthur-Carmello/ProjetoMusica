@@ -1,0 +1,65 @@
+package test;
+
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.sql.Connection;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import CRUDMusica.MusicaDao;
+import connectionfactory.ConnectionFactory;
+import model.Musica;
+import util.Message;
+
+public class Teste {
+
+	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
+		
+		String nome = "";
+		String artista = "";
+		String ano = "";
+		String album = "";
+		
+ 		JOptionPane.showMessageDialog(null, "Bem vindo ao cadastro de músicas.");
+ 		nome = JOptionPane.showInputDialog("Informe o nome de sua música favorita: ");
+ 		artista = JOptionPane.showInputDialog("Informe o nome do artista dela: ");
+ 		ano = JOptionPane.showInputDialog("Informe o ano de lançamento. Não tem problema se você não souber, pode ser qualquer data: ");
+ 		album = JOptionPane.showInputDialog("Informe o nome do album desta música: ");
+//		msgp = "Nome - " + nome;
+		try {
+			Connection con = new ConnectionFactory().getConnection();
+			Musica musica = new MusicaDao(con).salva(new Musica(nome, artista, ano, album));
+//			while(!msgp.equals("0")) {
+//				msgp = JOptionPane.showInputDialog("Chat - " + ChatIntelligence.returnMessage(msgp) + "(Entre com 0 para sair)");
+//				IChatAula objChat = (IChatAula) Naming.lookup("rmi://localhost:8282/chat");
+//				
+//				Message msg = new Message(nome, msgp);
+//				objChat.sendMessage(msg);
+//				System.out.println(returnMessage(objChat.retrieveMessage()));
+		
+			JOptionPane.showMessageDialog("MÚSICA INSERIDA ");
+			JOptionPane.showMessageDialog(null, "Nome: " + musica.getNome() + "\n"
+														 + "Artista: " + musica.getArtista() + "\n"
+														 + "Ano: " + musica.getAno() + "\n"
+														 + "Album: "+ musica.getAno());
+			//JOptionPane.showInputDialog("Chave: " + musica.getChave());
+			JOptionPane.showMessageDialog(null, );
+			JOptionPane.showMessageDialog(null, "Ano: " + );
+			JOptionPane.showMessageDialog(null, "Album: " + );
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		};
+		System.out.println("EXECUÇÃO FINALIZADA");
+	}
+
+	private static String returnMessage(List<Message> lst) {
+		String valor = "";
+		for (Message message : lst) {
+			valor += message.getUser() + ":" + message.getMessage() + "\n";
+		}
+		return valor;
+	}
+}

@@ -1,0 +1,7 @@
+INDEX VERSION 1.130+C:\Users\logatti.FIAR\Music\.metadata\.plugins\org.eclipse.jdt.core
+1392387351.index
+1540652217.index
+2862120557.index
+2124716766.index
+810164079.index
+2526823720.index

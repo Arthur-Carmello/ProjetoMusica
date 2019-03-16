@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;CRUDMusica.CRUDMusica&apos; to &apos;MusicaDao&apos;&#x0D;&#x0A;- Original project: &apos;Aula3Util&apos;&#x0D;&#x0A;- Original element: &apos;CRUDMusica.CRUDMusica&apos;&#x0D;&#x0A;- Renamed element: &apos;CRUDMusica.MusicaDao&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;CRUDMusica&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;CRUDMusica{CRUDMusica.java[CRUDMusica" matchStrategy="1" name="MusicaDao" qualified="false" references="true" similarDeclarations="false" stamp="1552690914834" textual="false" version="1.0"/>
+</session>
