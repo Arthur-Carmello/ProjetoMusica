@@ -1,0 +1,110 @@
+package CRUDMusica;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import model.Musica;
+
+public class MusicaDao {
+
+	private final Connection connection;
+
+	public MusicaDao(Connection connection) {
+		this.connection = connection;
+	}
+
+	public Musica salva(Musica musica) throws SQLException {
+		try (PreparedStatement stmt = connection
+				.prepareStatement("insert into musica(nome, artista, ano, album) values (?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+
+			stmt.setString(1, musica.getNome());
+			stmt.setString(2, musica.getArtista());
+			stmt.setString(3, musica.getAno());
+			stmt.setString(4, musica.getAlbum());
+			stmt.execute();
+		}
+		retornaRegistro(musica.getNome());
+		return musica;
+	}
+
+	public List<Musica> lista() throws SQLException {
+		String sql = "select * from musica";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.execute();
+			ResultSet resultSet = stmt.getResultSet();
+			ArrayList<Musica> musicas = new ArrayList<>();
+			while (resultSet.next()) {
+				String nome = resultSet.getString("nome");
+				String artista = resultSet.getString("artista");
+				String ano = resultSet.getString("ano");
+				String album = resultSet.getString("album");
+				int chave = resultSet.getInt("chave");
+				Musica musica = new Musica(nome, artista, ano, album);
+				musica.setChave(chave);
+				musicas.add(musica);
+			}
+			return musicas;
+		}
+	}
+	
+	public List<Musica> lista(String field) throws SQLException {
+		String sql = "select * from musica";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.execute();
+			ResultSet resultSet = stmt.getResultSet();
+			ArrayList<Musica> musicas = new ArrayList<>();
+			while (resultSet.next()) {
+				String nome = resultSet.getString("nome");
+				String artista = resultSet.getString("artista");
+				String ano = resultSet.getString("ano");
+				String album = resultSet.getString("album");
+				int chave = resultSet.getInt("chave");
+				Musica musica = new Musica(nome, artista, ano, album);
+				musica.setChave(chave);
+				musicas.add(musica);
+			}
+			
+			List<Musica> registros = musicas.stream().filter(item -> item.getNome().toUpperCase().equals(field.toUpperCase())
+											|| item.getAlbum().toUpperCase().equals(field.toUpperCase())
+											|| item.getArtista().toUpperCase().equals(field.toUpperCase())
+											|| item.getAno().toUpperCase().equals(item.toString().toUpperCase())
+											|| item.getChave().toString().toUpperCase().equals(item.toString())).collect(Collectors.toList());
+			
+			return registros;
+		}
+	}
+	
+	public Musica retornaRegistro(String field) throws SQLException {
+		String sql = "select * from musica";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.execute();
+			ResultSet resultSet = stmt.getResultSet();
+			ArrayList<Musica> musicas = new ArrayList<>();
+			while (resultSet.next()) {
+				String nome = resultSet.getString("nome");
+				String artista = resultSet.getString("artista");
+				String ano = resultSet.getString("ano");
+				String album = resultSet.getString("album");
+				int chave = resultSet.getInt("chave");
+				Musica musica = new Musica(nome, artista, ano, album);
+				musica.setChave(chave);
+				musicas.add(musica);
+			}
+			
+			List<Musica> registros = musicas.stream().filter(item -> item.getNome().toUpperCase().equals(field.toUpperCase())
+											|| item.getAlbum().toUpperCase().equals(field.toUpperCase())
+											|| item.getArtista().toUpperCase().equals(field.toUpperCase())
+											|| item.getAno().toUpperCase().equals(item.toString().toUpperCase())
+											|| item.getChave().toString().toUpperCase().equals(item.toString())).collect(Collectors.toList());
+			
+			return registros.get(0);
+		}
+	}
+
+}

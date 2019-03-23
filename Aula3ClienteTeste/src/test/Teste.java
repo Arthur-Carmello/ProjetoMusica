@@ -16,7 +16,7 @@ import util.Message;
 
 public class Teste {
 
-	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
+	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException, SQLException {
 
 		Connection con = new ConnectionFactory().getConnection();
 		String nome = "";
@@ -28,7 +28,7 @@ public class Teste {
 		boolean continuar = true;
 		while (continuar) {
 
-			String opcao = JOptionPane.showInputDialog("1.Cadastrar música\n" + "2.Listar músicas\n" + "3.Sair\n");
+			String opcao = JOptionPane.showInputDialog("1.Cadastrar música\n 2.Listar músicas\n 3.Pesquisar por música\n 4.Sair");
 			switch (opcao) {
 
 			case "1":
@@ -40,15 +40,7 @@ public class Teste {
 				// msgp = "Nome - " + nome;
 				try {
 					Musica musica = new MusicaDao(con).salva(new Musica(nome, artista, ano, album));
-					// while(!msgp.equals("0")) {
-					// msgp = JOptionPane.showInputDialog("Chat - " +
-					// ChatIntelligence.returnMessage(msgp) + "(Entre com 0 para sair)");
-					// IChatAula objChat = (IChatAula) Naming.lookup("rmi://localhost:8282/chat");
-					//
-					// Message msg = new Message(nome, msgp);
-					// objChat.sendMessage(msg);
-					// System.out.println(returnMessage(objChat.retrieveMessage()));
-
+					
 					JOptionPane.showMessageDialog(null,
 							"MÚSICA INSERIDA \n" + "Chave: " + musica.getChave() + "\n" + "Nome: " + musica.getNome() + "\n" + "Artista: "
 									+ musica.getArtista() + "\n" + "Ano: " + musica.getAno() + "\n" + "Album: "
@@ -70,6 +62,9 @@ public class Teste {
 									+ "Album: " + musica.getAlbum() + "\n");
 						}
 						JOptionPane.showMessageDialog(null, lista);
+						
+//						Query 
+						
 					}
 					else {
 						JOptionPane.showMessageDialog(null,"Não ha musicas cadastradas!");
@@ -82,6 +77,25 @@ public class Teste {
 				break;
 
 			case "3":
+				String pesquisa = JOptionPane.showInputDialog("\nDigite referente a música desejada (Nome, artista, album, ano): ");
+				List<Musica> musicas = new MusicaDao(con).find(pesquisa);
+				
+				if(musicas.size() > 0) {
+					String lista = "RESULTADOS DA PESQUISA \n";
+					for (Musica musica : musicas) {
+						lista = lista.concat("Chave: " + musica.getChave() + "   " + "Nome: " + musica.getNome() + "   "
+								+ "Artista: " + musica.getArtista() + "   " + "Ano: " + musica.getAno() + "   "
+								+ "Album: " + musica.getAlbum() + "\n");
+					}
+					JOptionPane.showMessageDialog(null, lista);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"A pesquisa realizada não trouxe resultados!");
+				}
+				
+				break;
+
+			case "4":
 				continuar = false;
 				break;
 
